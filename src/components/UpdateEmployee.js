@@ -1,51 +1,54 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,useLocation} from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
-const AddEmployee = (props) => {
+const UpdateEmployee = (props) => {
+
+const location = useLocation();
+    const {id,name,empid,dob,joiningdate,email}=location.state.employee;
 
 
     const history = useNavigate();
-    console.log(props);
+    
 
     const [emp, setEmp] = useState({
-        name: "",
-        empid: "",
-        dob: "",
-        joiningdate: "",
-        email: ""
+        name,
+        empid,
+        dob,
+        joiningdate,
+        email
     });
 
 
-    const add = (e) => {
+    const update = (e) => {
         e.preventDefault();
-        console.log(props);
+        
 
         if (emp.name === "" || emp.empid === "" || emp.dob === "" || emp.joiningdate === "" || emp.email === "") {
             alert("All fields required");
             return;
         }
 
-        props.addEmployeeHandler(emp);
+        props.updateEmployeeHandler(emp.id);
         setEmp({ ...emp, name: "", empid: "", dob: "", joiningdate: "", email: "" });
 
-
-        history('/');
+        
+  history('/');
 
 
     }
 
     return (
         <div className='ui main'>
-            <Link to="/" >
-                <button className="ui button" style={{ float: "right", marginBottom: "20px", backgroundColor: "#E93742", color: "white" }} >Back</button>
+            <Link to ="/" >
+            <button className="ui button" style={{float: "right",marginBottom:"20px",backgroundColor:"#E93742",color:"white"}} >Back</button>
             </Link>
 
             <h2>AddEmployee</h2>
+            
 
 
-
-            <form className="ui form" onSubmit={add}>
+            <form className="ui form" onSubmit={update}>
 
                 <div className="four field wide">
                     <label>Name</label>
@@ -68,7 +71,7 @@ const AddEmployee = (props) => {
                     <input type="text" name="email" placeholder="Email" value={emp.email} onChange={(e) => setEmp({ ...emp, email: e.target.value })} />
                 </div>
                 <div className="field">
-                    <button className="ui button" style={{ backgroundColor: "#E93742", color: "white" }}>Add</button>
+                    <button className="ui button" style={{backgroundColor:"#E93742",color:"white"}}>Update</button>
                 </div>
             </form>
 
@@ -81,4 +84,4 @@ const AddEmployee = (props) => {
 
 
 }
-export default AddEmployee;
+export default UpdateEmployee;
